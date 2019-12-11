@@ -271,6 +271,10 @@ $$\mathit{DB} \equiv \frac{1}{N}\displaystyle\sum_{i=1}^N D_i$$
 
 实验包括以下????几个部分
 
+\subsubsection{\textit{降维对聚类算法的影响}}
+
+\subsubsection{\textit{自实现与已有算法的比较}}
+
 \subsubsection{\textit{超参数选择对聚类算法的影响}}
 
 考虑到聚类的效果和聚类算法以及算法内部中某些超参数的选择十分相关，为了探究KMeans算法、MiniBatchKMeans
@@ -318,7 +322,41 @@ Davies-Bouldin指数认为DBSCAN的表现最佳。
 % \textbf{KMeans超参数选择：}
 
 \subsection{\textsf{\zihao{-4}算法评价与应用}}
+本部分首先通过可视化展示证明聚类算法的有效性和合理性，随后将对聚类的结果进行分析并提出对于调查问卷结果的
+一些建议。
 
+\subsubsection{\textit{可视化展示}}
+为了证明聚类算法的结果能够符合直观规律，分别对KMeans算法、MiniBatchKMeans算法与DBSCAN算法在最优参数
+下的结果进行可视化展示。高维数据的可视化展示采用t-SNE算法实现。
+
+\begin{figure}[!htb]
+\centering
+\epsfig{file=KMEANS.eps, height=3.3in, width=3.3in}
+\caption{KMeans聚类结果可视化}
+\label{PKM}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\epsfig{file=MBKM.eps, height=3.3in, width=3.3in}
+\caption{MiniBatchKMeans聚类结果可视化}
+\label{PMK}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\epsfig{file=DBSCAN.eps, height=3.3in, width=3.3in}
+\caption{DBSCAN聚类结果可视化}
+\label{PDS}
+\end{figure}
+
+图(\ref{PKM})、(\ref{PMK})、(\ref{PDS})分别是KMeans算法、MiniBatchKMeans算法以及
+DBSCAN算法的聚类结果。从图中可知，以上三种方法得到的聚类结果符合直观规律。对于DBSCAN算法，由于算法本身的原因
+注意到聚类结果之中有一部分数据未能够被分到任何一个聚簇之中，即图(\ref{PDS})之中的黑色样本点，这样数据共计
+有1845个。
+
+\subsubsection{\textit{分析与建议}}
+？？？？？
 
 \section{The {\secit Body} of The Paper}
 Typically, the body of a paper is organized
