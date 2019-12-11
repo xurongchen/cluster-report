@@ -30,6 +30,7 @@
 
 \usepackage[UTF8]{ctex}
 \usepackage{supertabular}
+\usepackage{booktabs}
 
 \DeclareRobustCommand{\ttfamily}{\fontfamily{lmtt}\selectfont}
 \DeclareRobustCommand\sectt[1]{{\fontsize{13}{12}\bfseries\ttfamily#1}}
@@ -223,15 +224,15 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 \subsection{\textsf{\zihao{-4}聚类算法}}
 
 在对数据进行预处理之后，我们将使用聚类算法对数据进行划分，然后根据聚类结果对数据进行分析。
-在在此次作业中，我们选择了K-means、MiniBatchK-means以及DBSCAN聚类算法进行聚类分析和
-实验，其中对K-means算法进行了手工实现，所有的详细代码实现可参见Data.py文件。
-
-\subsection{\textsf{\zihao{-4}实验说明}}
-
-因为本次实验数据中并没有对数据类型的标注，因此我们选择了xx、xx和xx等三种无标的聚类评价
-指标作为此次实验的评价指标，下面给出这三种指标的简要介绍。
+在在此次作业中，我们选择了KMeans、MiniBatchKMeans以及DBSCAN聚类算法进行聚类分析和
+实验，其中对KMeans算法进行了手工实现，所有的详细代码实现可参见Data.py文件。
 
 \subsubsection{\textit{实验评价指标选择}}
+
+因为本次实验数据中并没有对数据类型的标注，因此我们选择了轮廓系数、Calinski-Harabasz指数和
+Davies-Bouldin指数等三种无标的聚类评价指标作为此次实验的评价指标，下面给出这三种指标的简要介绍。
+
+% \subsubsection{\textit{实验评价指标选择}}
 \textbf{轮廓系数}（Silhouette Coefficient），是聚类效果好坏的一种评价方式。最早由Peter J. 
 Rousseeuw 在 1986 提出。它结合内聚度和分离度两种因素。可以用来在相同原始数据的基础上用
 来评价不同算法、或者算法不同运行方式对聚类结果所产生的影响。
@@ -265,6 +266,59 @@ $$R_{i,j} = \frac{S_i + S_j}{M_{i,j}}$$
 $$D_i \equiv \max_{j \neq i} R_{i,j}$$
 若一共有$N$个簇，则：
 $$\mathit{DB} \equiv \frac{1}{N}\displaystyle\sum_{i=1}^N D_i$$
+
+\subsection{\textsf{\zihao{-4}实验说明}}
+
+实验包括以下????几个部分
+
+\subsubsection{\textit{超参数选择对聚类算法的影响}}
+
+考虑到聚类的效果和聚类算法以及算法内部中某些超参数的选择十分相关，为了探究KMeans算法、MiniBatchKMeans
+算法与DBSCAN算法的最佳参数选择，设置了该比较实验。
+
+对于KMeans算法、MiniBatchKMeans算法，枚举的聚类个数$K$可以进行不同参数的比较。对于DBSCAN算法，假设我们已知了参数MinPts
+（简记$M$），可以利用k-距离曲线得到最佳的Eps的值（简记$E$，拐点位置，实验中我们通过寻找二阶导数的最值来确定具体的拐点），之后首先从一个
+大范围大步长的参数比较找到最佳范围，随后逐渐缩小范围和步长，最终求得最佳参数。
+
+超参数选择的实验结果如表(\ref{ARG})所示，其中KM、MK、DS分别是KMeans算法、MiniBatchKMeans
+算法与DBSCAN算法的简写，SC、CH、DB分别代表轮廓系数、Calinski-Harabasz指数和
+Davies-Bouldin指数三种评价指标（前两者越大越好，第三个越小越好）。限于篇幅，选取的超参数是若干代表性取值。
+
+\begin{table}[!htb]
+\centering
+\caption{超参数选择的评估结果}
+\begin{tabular}{@{}ccccc@{}}\toprule
+算法     & 超参数 & $\mathit{SC}$ & $\mathit{CH}$ & $\mathit{DB}$  \\ \midrule
+KM & $K=2$   & \textbf{0.3027} & \textbf{3563} & \textbf{1.214}\\
+KM & $K=3$   & 0.2581 & 3106 & 1.431\\
+KM & $K=4$   & 0.2532 & 2791 & 1.275\\
+KM & $K=5$   & 0.2501 & 2623 & 1.318\\\midrule
+MK & $K=2$   & \textbf{0.3552} & \textbf{3556} & \textbf{1.086}\\
+MK & $K=3$   & 0.2488 & 2988 & 1.424\\
+MK & $K=4$   & 0.2344 & 2658 & 1.330\\
+MK & $K=5$   & 0.2438 & 2445 & 1.315\\\midrule  
+DS & $M=150,E=3.74$    & 0.2048 & 2231 & 1.170\\
+DS & $M=155,E=3.74$    & 0.1988 & 2201 & 1.172\\
+DS & $M=160,E=3.74$    & \textbf{0.3549} & \textbf{3042} & \textbf{1.032}\\
+DS & $M=165,E=3.74$    & 0.2917 & 2714 & 1.452\\
+DS & $M=170,E=3.74$    & 0.2917 & 2714 & 1.452\\\bottomrule
+\end{tabular}
+\label{ARG}
+\end{table}
+
+从表(\ref{ARG})中可知，对于各个聚类算法自身而言，三个评估指标均是一致的。对于KMaens和MiniBatchKMeans，
+最优的$K$值为2，对于DBSCAN而言最优的$M$和$E$分别为160和3.74。有趣的是，对于聚类算法之间的比较，三个算法均附加最优的参数时，三个评估指标的结果
+恰各不一样，轮廓系数认为MiniBatchKMeans的表现最佳，Calinski-Harabasz指数认为KMeans的表现最佳，而
+Davies-Bouldin指数认为DBSCAN的表现最佳。
+
+% \textbf{KMeans超参数选择：}
+
+% \textbf{MiniBatchKMeans超参数选择：}
+
+% \textbf{KMeans超参数选择：}
+
+\subsection{\textsf{\zihao{-4}算法评价与应用}}
+
 
 \section{The {\secit Body} of The Paper}
 Typically, the body of a paper is organized
