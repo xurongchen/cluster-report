@@ -167,7 +167,8 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 数据预处理过程一共包括特征正则化处理、基于pd.get\_dummies()特征独热化处理、数据集降维与拆分三个步骤。
 
 \subsubsection{\textsl{\zihao{5}特征正则化处理}}
-特征正则化处理按以下步骤执行：\\
+特征正则化处理按以下步骤执行：
+
 \newcommand{\normalizing}[1]{$\text{#1} = \frac{\text{#1}}{\max(\text{#1})-\min(\text{#1})}$}
 \begin{supertabular}{ll}
        (1)& 删除ID特征\\[0.5pt]
@@ -182,7 +183,8 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
        (9)& 删除month列\\
 \end{supertabular}
 \subsubsection{\textsl{\zihao{5}基于}pd.get\_dummies()\textsl{\zihao{5}特征独热化处理}}
-基于pd.get\_dummies()特征独热化处理按以下步骤执行：\\
+基于pd.get\_dummies()特征独热化处理按以下步骤执行：
+
 \begin{supertabular}{ll}
        (1)&	Job转化为12位的独热码\\
        (2)&	marital转化为3位的独热码\\
@@ -195,16 +197,74 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 \end{supertabular}
 
 \subsubsection{\textsl{数据集降维与拆分}}
-数据集降维与拆分按以下步骤执行：\\
+数据集降维与拆分按以下步骤执行：
+
 \begin{supertabular}{ll}
        (1)&	拆分label与data。\\
        (2)&	Data降维，使用方法包括PCA、FastICA、\\
-       & LDA，PCA、FastICA 降维后维数为20, \\
-       &LDA降维后维数为2。\\
+       & LDA。PCA、FastICA 降维后的维数为20, \\
+       &LDA降维后的维数为2。\\
        (3)&	合并label与data。\\
        (4)&	提取正负样本，其中正样本数2961，负样本\\
        &数22356。\\
 \end{supertabular}
+
+\section{\textsf{\zihao{-4}学生调查问卷结果分析}}
+
+该部分主要解决的任务是：根据提供的调查问卷的回答结果，对学生进行类型划分，分析每种类型的特点，
+并结合数据对学生、老师或学校提出建议。
+
+\subsection{\textsf{\zihao{-4}数据预处理}}
+
+数据预处理包括人为的特征选择和自动化的数据降维方法两个部分。
+
+% \subsubsection{\textit{特征选择}}
+
+\subsection{\textsf{\zihao{-4}聚类算法}}
+
+在对数据进行预处理之后，我们将使用聚类算法对数据进行划分，然后根据聚类结果对数据进行分析。
+在在此次作业中，我们选择了K-means、MiniBatchK-means以及DBSCAN聚类算法进行聚类分析和
+实验，其中对K-means算法进行了手工实现，所有的详细代码实现可参见Data.py文件。
+
+\subsection{\textsf{\zihao{-4}实验说明}}
+
+因为本次实验数据中并没有对数据类型的标注，因此我们选择了xx、xx和xx等三种无标的聚类评价
+指标作为此次实验的评价指标，下面给出这三种指标的简要介绍。
+
+\subsubsection{\textit{实验评价指标选择}}
+\textbf{轮廓系数}（Silhouette Coefficient），是聚类效果好坏的一种评价方式。最早由Peter J. 
+Rousseeuw 在 1986 提出。它结合内聚度和分离度两种因素。可以用来在相同原始数据的基础上用
+来评价不同算法、或者算法不同运行方式对聚类结果所产生的影响。
+
+对于数据点$i \in C_i$（数据点$i$位于聚簇$C_i$中），定义：
+$$a(i) = \frac{1}{|C_i| - 1} \sum_{j \in C_i, i \neq j} d(i, j)$$
+代表数据点$i$到其相同簇内所有点的平均距离。定义：
+$$b(i) = \min_{k \neq i} \frac{1}{|C_k|} \sum_{j \in C_k} d(i, j)$$
+代表数据点$i$到其不同簇内所有点的平均距离点最小值。于是数据点$i$的轮廓系数可定义为：
+$$s(i) = \frac{b(i) - a(i)}{\max\{a(i),b(i)\}}$$
+将所有点的轮廓系数求平均，就是该聚类结果总的轮廓系数：
+$$\mathit{SC}=\frac{1}{|N|} \sum_{i\in N} s(i)$$
+
+\textbf{Calinski-Harabasz指数}，是T. Calinski和J. Hara-basz于1974年提出的一种基于同一聚类
+内部平方的平均值以及不同聚类之内平方和的平均值评估聚类有效性的方法。以下的数学公式给出了其的计算式：
+$$\mathit{CH} = \frac{ tr(B_k) }{ tr(W_k) } \times \frac{ N-k }{ k-1 }$$
+其中，$N$是训练样本数，$k$为类别数，$B_k$为类别之间的协方差矩阵，$W_k$为类别内部数据的协方差矩阵，
+$tr$用于求解矩阵的迹。
+
+\textbf{Davies-Bouldin指数}，是一种基于数据集样本数量和特征数量聚类质量度量方法，由David L. 
+Davies和Donald W. Bouldin于1979年提出。
+
+$n$维样本，$C_i$是某个聚簇。 $X_j$是$C_i$中的样本。 定义$S_i$是簇内紧凑性的量度：
+$$S_i = \left(\frac{1}{T_i} \sum_{j=1}^{T_i} {\left| X_j-A_i\right|^p}\right)^{1/p}$$
+其中$A_i$是$C_i$的聚簇中心，$T_i$是$C_i$的样本数目，通常$p$取2代表欧几里得距离。
+定义$M_{i,j}$是簇$C_i$、$C_j$间分离性的量度：
+$$M_{i,j} = \left|\left|A_i-A_j\right|\right|_p = \Bigl(\displaystyle\sum_{k=1}^{n}\left|a_{k,i}-a_{k,j}\right|^p\Bigr)^{\frac 1 p}$$
+其中，$a_{k,i}$代表$A_i$的第$k$个元素。定义$R_{i,j}$表示簇$i$和簇$j$间的聚簇质量度量：
+$$R_{i,j} = \frac{S_i + S_j}{M_{i,j}}$$
+对于某个簇$i$定义$D_i$表示簇$i$的聚簇质量：
+$$D_i \equiv \max_{j \neq i} R_{i,j}$$
+若一共有$N$个簇，则：
+$$\mathit{DB} \equiv \frac{1}{N}\displaystyle\sum_{i=1}^N D_i$$
 
 \section{The {\secit Body} of The Paper}
 Typically, the body of a paper is organized
