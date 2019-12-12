@@ -349,7 +349,7 @@
 \setcounter{secnumdepth}{3}
 
 \def\appendix{\par
-\section*{APPENDIX}
+\section*{\textsf{\zihao{4}附录}}
 \setcounter{section}{0}
  \setcounter{subsection}{0}
  \def\thesection{\Alph{section}} }
