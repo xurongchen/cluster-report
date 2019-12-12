@@ -308,19 +308,19 @@
 \setlength{\tabcolsep}{1.4mm}{
 \begin{tabular}{@{}c@{\hskip 0mm}c|ccccc@{}}
 \toprule
-\multicolumn{2}{c|}{}                    & SVM & DT  & MLP & LR  & PLR \\ \midrule
-\multirow{3}{*}{原特征}             &ACC  &0.809&\textcolor{red}{0.700}&\textcolor{red}{\textbf{0.816}}&\textcolor{red}{0.814}&0.725\\
-                                   &F1   &     &     &     &     &     \\
-                                   &P    &     &     &     &     &     \\ \midrule
-\multirow{3}{*}{PCA$_{20}$}        &ACC  &     &     &     &     &     \\
-                                   &F1   &     &     &     &     &     \\
-                                   &P    &     &     &     &     &     \\ \midrule
-\multirow{3}{*}{IDA$_2$}           &ACC  &     &     &     &     &     \\
-                                   &F1   &     &     &     &     &     \\
-                                   &P    &     &     &     &     &     \\ \midrule
-\multirow{3}{*}{FastICA$_{20}$}    &ACC  &     &     &     &     &     \\
-                                   &F1   &     &     &     &     &     \\
-                                   &P    &     &     &     &     &     \\ \bottomrule
+\multicolumn{2}{c|}{}                    & SVM                        & DT                               & MLP                       & LR                               & PLR \\ \midrule
+\multirow{3}{*}{原特征}             &ACC  &0.893                       &\textcolor{red}{0.880}            &\textcolor{red}{0.899}     &\textcolor{red}{\textbf{0.901}}   &\textcolor{red}{0.845}\\
+                                   &F1   &0.285                       &\textcolor{red}{\textbf{0.498}}   &0.463                      &\textcolor{red}{0.434}            &\textcolor{red}{0.380}\\
+                                   &P    &\textcolor{red}{0.647}      &\textcolor{red}{0.487}            &0.615                      &\textbf{0.651}                    &\textcolor{red}{0.457}\\ \midrule
+\multirow{3}{*}{PCA$_{20}$}        &ACC  &\textbf{0.893}              &0.835                             &0.892                      &\textbf{0.893}                    &0.586\\
+                                   &F1   &0.285                       &\textbf{0.304}                    &0.272                      &0.273                             &0.285\\
+                                   &P    &\textcolor{red}{0.647}      &0.300                             &0.641                      &\textcolor{red}{0.668}            &0.178\\ \midrule
+\multirow{3}{*}{IDA$_2$}           &ACC  &\textcolor{red}{0.900}      &0.853                             &\textcolor{red}{0.899}     &0.899                             &0.263\\
+                                   &F1   &\textcolor{red}{0.463}      &0.368                             &0.429                      &0.423                             &0.030\\
+                                   &P    &0.625                       &0.370                             &0.634                      &\textbf{0.635}                    &0.018\\ \midrule
+\multirow{3}{*}{FastICA$_{20}$}    &ACC  &0.883                       &0.839                             &0.892                      &\textbf{0.893}                    &0.636\\
+                                   &F1   &0.000                       &\textbf{0.320}                    &0.255                      &0.273                             &0.310\\
+                                   &P    &0.000                       &0.316                             &\textcolor{red}{0.664}     &\textcolor{red}{0.668}            &0.199\\ \bottomrule
 \end{tabular}
 }
 \label{WJHSY}
