@@ -31,6 +31,9 @@
 \usepackage[UTF8]{ctex}
 \usepackage{supertabular}
 \usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+
 
 \DeclareRobustCommand{\ttfamily}{\fontfamily{lmtt}\selectfont}
 \DeclareRobustCommand\sectt[1]{{\fontsize{13}{12}\bfseries\ttfamily#1}}
@@ -88,21 +91,21 @@
 % 1st. author
 \alignauthor
 \textsf{\large 平~国~楼}\\
-       \affaddr{软件学院}\\
+       % \affaddr{软件学院}\\
        \affaddr{学号：2019312652}\\
        % \affaddr{Wallamaloo, New Zealand}\\
        \email{???19@mails.tsing hua.edu.cn}
 % 2nd. author
 \alignauthor
 \textsf{\large 徐~荣~琛}\\
-       \affaddr{软件学院}\\
+       % \affaddr{软件学院}\\
        \affaddr{学号：2019214518}\\
        % \affaddr{Dublin, Ohio 43017-6221}\\
        \email{xrc19@mails.tsing hua.edu.cn}
 % 3rd. author
 \alignauthor
 \textsf{\large 杨~~~柳}\\
-       \affaddr{软件学院}\\
+       % \affaddr{软件学院}\\
        \affaddr{学号：2018214187}\\
        % \affaddr{Hekla, Iceland}\\
        \email{yang18@mails.tsing hua.edu.cn}
@@ -110,7 +113,7 @@
 % 4th. author
 \alignauthor 
 \textsf{\large 甘~伟~冲}\\
-       \affaddr{软件学院}\\
+       % \affaddr{软件学院}\\
        \affaddr{学号：2019312661}\\
        % \affaddr{P.O. Box 5000}\\
        \email{???19@mails.tsing hua.edu.cn}
@@ -168,23 +171,23 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 数据预处理过程一共包括特征正则化处理、基于pd.get\_dummies()特征独热化处理、数据集降维与拆分三个步骤。
 
 \subsubsection{\textsl{\zihao{5}特征正则化处理}}
-特征正则化处理按以下步骤执行：
+% 特征正则化处理按以下步骤执行：
 
 \newcommand{\normalizing}[1]{$\text{#1} = \frac{\text{#1}}{\max(\text{#1})-\min(\text{#1})}$}
 \begin{supertabular}{ll}
-       (1)& 删除ID特征\\[0.5pt]
-       (2)& \normalizing{age}\\[0.5pt]
-       (3)& \normalizing{balance}\\[0.5pt]
-       (4)& \normalizing{duration}\\[0.5pt]
-       (5)& \normalizing{campaign}\\[0.5pt]
-       (6)& \normalizing{pdays}\\[0.5pt]
-       (7)& \normalizing{previous}\\[0.5pt]
-       (8)& $\text{day} =\text{day}+30\times int(\text{mouth})$\\[0.5pt]
-       & \normalizing{day}\\[0.5pt]
+       (1)& 删除ID特征\\
+       (2)& \normalizing{age}\\
+       (3)& \normalizing{balance}\\
+       (4)& \normalizing{duration}\\
+       (5)& \normalizing{campaign}\\
+       (6)& \normalizing{pdays}\\
+       (7)& \normalizing{previous}\\
+       (8)& $\text{day} =\text{day}+30\times int(\text{mouth})$\\
+       & \normalizing{day}\\
        (9)& 删除month列\\
 \end{supertabular}
 \subsubsection{\textsl{\zihao{5}基于}pd.get\_dummies()\textsl{\zihao{5}特征独热化处理}}
-基于pd.get\_dummies()特征独热化处理按以下步骤执行：
+% 基于pd.get\_dummies()特征独热化处理按以下步骤执行：
 
 \begin{supertabular}{ll}
        (1)&	Job转化为12位的独热码\\
@@ -198,7 +201,7 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 \end{supertabular}
 
 \subsubsection{\textsl{数据集降维与拆分}}
-数据集降维与拆分按以下步骤执行：
+% 数据集降维与拆分按以下步骤执行：
 
 \begin{supertabular}{ll}
        (1)&	拆分label与data。\\
@@ -210,6 +213,103 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
        &数22356。\\
 \end{supertabular}
 
+\subsection{\textsf{\zihao{-4}不同方法的交叉验证实验}}
+\begin{supertabular}{ll}
+       (1)&   设置交叉验证折数为8。\\
+       (2)&	设置算法，包括MLP、SVM、DT、LR、\\
+       & PLR，其中PLR为自写。\\
+       (3)&	删除少量样本，使正负样本总数都为折数的\\
+       & 倍数。其中删除正样本1个，负样本4个，\\
+       & 剩余正样本2960个，负样本22352个。\\
+       (4)&	提取正负样本，其中正样本数2961，负样本\\
+       &数22356。\\
+       (5)&	以下二选一，包括均衡与不进行均衡的情况：\\
+       & $\bullet$ 提取每次交叉验证的训练集与测试集并对\\
+       & 正负样本进行均衡化，使正样本数目等于负\\
+       & 样本数目，均衡方法为正样本首先进行多次\\
+       & 倍数级联，少于单倍个数的进行随机补足。\\
+       & $\bullet$ 不进行均衡化。\\
+       (6)&	进行训练和测试，得到评价指标\\
+\end{supertabular}
+
+\subsection{\textsf{\zihao{-4}实验结果}}
+进行均衡的实验结果如表(\ref{JHSY})所示。
+
+\begin{table}[!ht]
+\caption{均衡实验结果}
+\setlength{\tabcolsep}{1.4mm}{
+\begin{tabular}{@{}c@{\hskip 0mm}c|ccccc@{}}
+\toprule
+\multicolumn{2}{c|}{}                    & SVM & DT  & MLP & LR  & PLR \\ \midrule
+\multirow{3}{*}{原特征}             &ACC  &0.809&\textcolor{red}{0.700}&\textcolor{red}{\textbf{0.816}}&\textcolor{red}{0.814}&0.725\\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{PCA$_{20}$}        &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{IDA$_2$}           &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{FastICA$_{20}$}    &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \bottomrule
+\end{tabular}
+}
+\label{JHSY}
+\end{table}
+未进行均衡的结果如表(\ref{WJHSY})所示。
+\begin{table}[!ht]
+\caption{未均衡实验结果}
+\setlength{\tabcolsep}{1.4mm}{
+\begin{tabular}{@{}c@{\hskip 0mm}c|ccccc@{}}
+\toprule
+\multicolumn{2}{c|}{}                    & SVM & DT  & MLP & LR  & PLR \\ \midrule
+\multirow{3}{*}{原特征}             &ACC  &0.809&\textcolor{red}{0.700}&\textcolor{red}{\textbf{0.816}}&\textcolor{red}{0.814}&0.725\\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{PCA$_{20}$}        &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{IDA$_2$}           &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \midrule
+\multirow{3}{*}{FastICA$_{20}$}    &ACC  &     &     &     &     &     \\
+                                   &F1   &     &     &     &     &     \\
+                                   &P    &     &     &     &     &     \\ \bottomrule
+\end{tabular}
+}
+\label{WJHSY}
+\end{table}
+其中，加粗表示在本列（所有方法中）取得最大值，同时取得最大值时，都加粗。红色字体表示在本行（所有降维方法中），该指标取得
+最大值，由于包括三个指标，所以每列至少有三个指标进行加粗。
+
+\subsection{\textsf{\zihao{-4}评价}}
+
+使用了交叉验证方法，设置交叉验证折数为8，由于在银行营销预测的结果通常用于产品推荐，因此为了不较少打扰无意愿购买产品的客户，
+比较重视查准率，因此我们使用了查准率P指标，其次F1一定程度上反应了查准率和查全率均衡的情况，我们也使用了该指标,另外预测准
+确率作为最常用的预测指标，最能反应模型的性能，所以总体上我们使用了Accuracy、F1、P三个评价指标,同时也使用了PCA、LDA、
+FastICA等降维方法。
+
+\subsubsection{\textsl{\zihao{5}均衡情况}}
+
+针对模型：使用了MLP、SVM、DT、LR、PLR，其中PLR为自写，总体上MLP>LR>SVM>PLR>DT指标 另外，自写的回归算法PLR结果总体上
+比sklearn提供的LR差。
+
+针对数据：原特征即选择了所有特征，并进行了相应的预处理，降维方法使用了PCA、LDA、FastICA，PCA、 FastICA 降维后维数为
+20， LDA降维后维数为2。原特征在MLP、DT、LR上取得了最佳结果，LDA在SVM、PLR上取得了最佳结果，因此，在所有降维方法中，
+LDA方法的结果明显优于其他方法。
+
+\subsubsection{\textsl{\zihao{5}未均衡情况}}
+
+总体上，相对于进行了均衡的情况，ACC大幅提高，F1与P大幅下降。
+
+针对模型：使用了MLP、SVM、DT、LR、PLR，其中PLR为自写，总体上LR>MLP>SVM>DT>PLR指标 另外，自写的回归算法PLR结果
+总体上比sklearn提供的LR差的比较多。
+
+针对数据：原特征即选择了所有特征，并进行了相应的预处理，降维方法使用了PCA、LDA、FastICA，PCA、 FastICA 降维后维数
+为20，LDA降维后维数为2。原特征在MLP、DT、LR、PLR上取得了最佳结果，LDA在SVM上取得了最佳结果，因此，在所有降维方法中，
+LDA方法的结果明显优于其他方法。
+
 \section{\textsf{\zihao{-4}学生调查问卷结果分析}}
 
 该部分主要解决的任务是：根据提供的调查问卷的回答结果，对学生进行类型划分，分析每种类型的特点，
@@ -217,7 +317,12 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 
 \subsection{\textsf{\zihao{-4}数据预处理}}
 
-数据预处理包括人为的特征选择和自动化的数据降维方法两个部分。
+数据预处理包括人工的特征选择和自动化的数据降维方法两个部分。其中，自动化的数据降维采用PCA技术。
+
+人工的特征选择是基于问题语义的特征选择。尝试的一种人工的特征选择是注意到分析的核心是调查问卷，故我们将关注的重点放在调查问卷的问题
+特征之中，而删去所有的其它特征。
+
+对于预处理降维对聚类结果的影响会在后续实验环节进行评估。
 
 % \subsubsection{\textit{特征选择}}
 
@@ -233,28 +338,30 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 Davies-Bouldin指数等三种无标的聚类评价指标作为此次实验的评价指标，下面给出这三种指标的简要介绍。
 
 % \subsubsection{\textit{实验评价指标选择}}
-\textbf{轮廓系数}（Silhouette Coefficient），是聚类效果好坏的一种评价方式。最早由Peter J. 
-Rousseeuw 在 1986 提出。它结合内聚度和分离度两种因素。可以用来在相同原始数据的基础上用
+\textbf{轮廓系数}（Silhouette Coefficient）是聚类效果好坏的一种评价方式。
+% 最早由Peter J. 
+% Rousseeuw 在 1986 提出。
+它结合内聚度和分离度两种因素。可以用来在相同原始数据的基础上用
 来评价不同算法、或者算法不同运行方式对聚类结果所产生的影响。
-
-对于数据点$i \in C_i$（数据点$i$位于聚簇$C_i$中），定义：
+对于数据点$i \in C_i$（数据点$i$位于聚簇$C_i$中）
 $$a(i) = \frac{1}{|C_i| - 1} \sum_{j \in C_i, i \neq j} d(i, j)$$
-代表数据点$i$到其相同簇内所有点的平均距离。定义：
+代表数据点$i$到其相同簇内所有点的平均距离。
 $$b(i) = \min_{k \neq i} \frac{1}{|C_k|} \sum_{j \in C_k} d(i, j)$$
-代表数据点$i$到其不同簇内所有点的平均距离点最小值。于是数据点$i$的轮廓系数可定义为：
+代表数据点$i$到其不同簇内所有点的平均距离点最小值。于是数据点$i$的轮廓系数
 $$s(i) = \frac{b(i) - a(i)}{\max\{a(i),b(i)\}}$$
-将所有点的轮廓系数求平均，就是该聚类结果总的轮廓系数：
+将所有点的轮廓系数求平均，就是该聚类结果总的轮廓系数
 $$\mathit{SC}=\frac{1}{|N|} \sum_{i\in N} s(i)$$
 
-\textbf{Calinski-Harabasz指数}，是T. Calinski和J. Hara-basz于1974年提出的一种基于同一聚类
+\textbf{Calinski-Harabasz指数}是%T. Calinski和J. Hara-basz于1974年提出的
+一种基于同一聚类
 内部平方的平均值以及不同聚类之内平方和的平均值评估聚类有效性的方法。以下的数学公式给出了其的计算式：
 $$\mathit{CH} = \frac{ tr(B_k) }{ tr(W_k) } \times \frac{ N-k }{ k-1 }$$
 其中，$N$是训练样本数，$k$为类别数，$B_k$为类别之间的协方差矩阵，$W_k$为类别内部数据的协方差矩阵，
 $tr$用于求解矩阵的迹。
 
-\textbf{Davies-Bouldin指数}，是一种基于数据集样本数量和特征数量聚类质量度量方法，由David L. 
-Davies和Donald W. Bouldin于1979年提出。
-
+\textbf{Davies-Bouldin指数}是一种基于数据集样本数量和特征数量聚类质量度量方法。
+%由David L. 
+%Davies和Donald W. Bouldin于1979年提出。
 $n$维样本，$C_i$是某个聚簇。 $X_j$是$C_i$中的样本。 定义$S_i$是簇内紧凑性的量度：
 $$S_i = \left(\frac{1}{T_i} \sum_{j=1}^{T_i} {\left| X_j-A_i\right|^p}\right)^{1/p}$$
 其中$A_i$是$C_i$的聚簇中心，$T_i$是$C_i$的样本数目，通常$p$取2代表欧几里得距离。
@@ -272,6 +379,37 @@ $$\mathit{DB} \equiv \frac{1}{N}\displaystyle\sum_{i=1}^N D_i$$
 实验包括以下????几个部分
 
 \subsubsection{\textit{降维对聚类算法的影响}}
+以未降维的数据经过聚类后结果为基准，考虑降维之后数据经过聚类后结果与基准的相似度。我们认为，一个“好”的降维，
+即降维后数据仍然保持了原有的主体性质，因此与基准的相似度应当尽可能接近。我们基于Jacarrd距离定义以下的聚类
+$C$基于聚类$B$相似度度量：
+$$Sim(C,B) = \frac{1}{|C|}\sum_{c_i\in C}\max_{c_j\in B}d_{J}(c_i,c_j)$$
+其中，Jacarrd距离：
+$$d_{J}(A,B) = \frac{|A\cap B|}{|A\cup B|}$$
+考虑基于语义的人为属性选择、98\%主成分PCA、95\%主成分PCA和90\%主成分PCA，分别对KMeans算法、MiniBatchKMeans
+算法与DBSCAN算法基于某些最佳参数下的相似度度量。由于PCA方法可能存在一定随机性（初始随机点），对于每个情况进行若干
+次的重复实验，取最大的相似度度量作为本组的相似度度量。实验结果如表(\ref{DIM})所示。
+
+\begin{table*}[!ht]
+\centering
+\caption{降维对聚类算法影响评估}
+\begin{tabular}{@{}c|c|ccc|ccc|ccc@{}}
+\toprule
+              &\multicolumn{1}{c|}{\multirow{2}{*}{维度}} & \multicolumn{3}{c|}{KMeans} & \multicolumn{3}{c|}{MiniBatchKMeans} & \multicolumn{3}{c}{DBSCAN} \\
+              &\multicolumn{1}{c|}{}                     & $K=2$   & $K=3$   & $K=4$   & $K=2$      & $K=3$      & $K=4$      & $M=150$ & $M=160$ & $M=170$ \\ \midrule
+未降维         & 33                                       & 1.0000  & 1.0000  & 1.0000  & 1.0000     & 1.0000     & 1.0000     & 1.0000  & 1.0000  & 1.0000  \\
+人为属性选择    & 28                                       & 0.9931  & 0.9903  & 0.5539  & 0.9694     & 0.9585     & 0.9050     & 0.2054  & 0.2610  & 0.1955  \\
+PCA 98\%      & 23                                       & 0.9993  & 0.9978  & 0.9993  & 0.9904     & 0.9362     & 0.9368     & 0.6811  & 0.6403  & 0.4806  \\
+PCA 95\%      & 14                                       & 1.0000  & 0.9997  & 0.9551  & 0.9978     & 0.9175     & 0.9207     & 0.4398  & 0.5761  & 0.4411  \\
+PCA 90\%      & 6                                        & 0.9993  & 0.9957  & 0.9958  & 0.9896     & 0.9661     & 0.9286     & 0.1817  & 0.2312  & 0.1732  \\ 
+PCA 80\%      & 2                                        & 0.9990  & 0.9903  & 0.9840  & 0.9955     & 0.9084     & 0.9819     & 0.1793  & 0.2277  & 0.1704  \\ 
+PCA 50\%      & 1                                        & 0.9983  & 0.9848  & 0.5889  & 0.9907     & 0.9627     & 0.6573     & 0.1793  & 0.2277  & 0.1704  \\ \bottomrule
+\end{tabular}
+\label{DIM}
+\end{table*}
+
+从表(\ref{DIM})可知，降维处理对KMeans、MiniBatchKMeans有较好的表现，特别是$K$值较小时（1、2时），即便PCA降维到1维
+降维后结果与不降维结果的集合相似度仍然超过99\%。对于DBSCAN，降维对其结果影响较大，分析原因可能是降维使得某些原本DBSCAN不聚类的噪声点
+被融入到非噪声点之中，这样导致了较大规模的结果变化。
 
 \subsubsection{\textit{自实现与已有算法的比较}}
 
