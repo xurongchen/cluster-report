@@ -236,6 +236,7 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 进行均衡的实验结果如表(\ref{JHSY})所示。
 
 \begin{table}[!ht]
+\centering
 \caption{均衡实验结果}
 \setlength{\tabcolsep}{1.4mm}{
 \begin{tabular}{@{}c@{\hskip 0mm}c|ccccc@{}}
@@ -259,6 +260,7 @@ SVM、DT、LR、PLR等分类器进行训练评估，其中PLR为自己实现的�
 \end{table}
 未进行均衡的结果如表(\ref{WJHSY})所示。
 \begin{table}[!ht]
+\centering
 \caption{未均衡实验结果}
 \setlength{\tabcolsep}{1.4mm}{
 \begin{tabular}{@{}c@{\hskip 0mm}c|ccccc@{}}
@@ -411,7 +413,33 @@ PCA 50\%      & 1                                        & 0.9983  & 0.9848  & 0
 降维后结果与不降维结果的集合相似度仍然超过99\%。对于DBSCAN，降维对其结果影响较大，分析原因可能是降维使得某些原本DBSCAN不聚类的噪声点
 被融入到非噪声点之中，这样导致了较大规模的结果变化。
 
-\subsubsection{\textit{自实现与已有算法的比较}}
+\subsubsection{\textit{自实现KMeans与sklearn库的比较}}
+在本次实验使用的聚类算法中，我们通过手动实现了KMeans算法，将其和算法库中的KMeans算法在不同的超参数下进行对比，
+具体的实验结果见表(\ref{IMPL})，其中impl表示自主实现的KMeans算法，sklearn表示sklearn中的KMeans算法。
+\begin{table}[]
+\centering
+\caption{降维对聚类算法影响评估}
+\begin{tabular}{@{}c|c|cccc@{}}
+\toprule
+                            & 来源        & 时间 & SC & CH & DBI \\ \midrule
+\multirow{2}{*}{$k=2$}      & impl        &1.29&0.3006&3534&1.2262\\
+                            & sklearn     &0.61&0.3027&3562&1.2144\\ \midrule
+\multirow{2}{*}{$k=3$}      & impl        &1.44&0.2466&2794&1.3797\\
+                            & sklearn     &0.71&0.2581&3106&1.2212\\ \midrule
+\multirow{2}{*}{$k=4$}      & impl        &1.49&0.1888&2319&1.8266\\
+                            & sklearn     &0.71&0.2531&2791&1.2756\\ \bottomrule
+\end{tabular}
+\label{IMPL}
+\end{table}
+       
+从聚类算法耗时角度看：纵向对比，无论是自主实现还是sklearn库，算法执行时间会随着聚类超参数K的增加而增加；
+横向对比，sklearn库耗时比自主实现更短。
+
+从三个评价指标来看：纵向对比，sklearn库随着K增加，轮廓系数和CH指数都是逐渐减少，而DBI逐渐增加，
+根据三个指标的评估标准（轮廓系数和CH指数越大效果越好，DBI越小越好），可见当K为2时聚类效果越好。
+而自主实现三个指标的结果随着参数K变化出现震荡，不过同样是在k=2时聚类效果最好，即轮廓系数和CH指数最大，
+DBI最小；横向对比，k=2时，自主实现与sklearn库效果相近，且都达到最好效果。随着K增加，自主实现的轮廓
+系数和CH指数都比sklearn库小，DBI更大，即效果更差。
 
 \subsubsection{\textit{超参数选择对聚类算法的影响}}
 
