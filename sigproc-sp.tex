@@ -94,7 +94,7 @@
        % \affaddr{软件学院}\\
        \affaddr{学号：2019312652}\\
        % \affaddr{Wallamaloo, New Zealand}\\
-       \email{???19@mails.tsing hua.edu.cn}
+       \email{pgl19@mails.tsing hua.edu.cn}
 % 2nd. author
 \alignauthor
 \textsf{\large 徐~荣~琛}\\
@@ -116,7 +116,7 @@
        % \affaddr{软件学院}\\
        \affaddr{学号：2019312661}\\
        % \affaddr{P.O. Box 5000}\\
-       \email{???19@mails.tsing hua.edu.cn}
+       \email{ganwc19@mails.ts inghua.edu.cn}
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
@@ -550,7 +550,22 @@ DBSCAN算法的聚类结果。从图中可知，以上三种方法得到的聚�
 有1845个。
 
 \subsubsection{\textit{分析与建议}}
-\TODO{}
+实验中，当聚成2时聚类效果最好，下面根据聚成2类时的实验结果进行分析并提出建议。
+聚成2类时，类a各个问题答案平均值在1.4左右，中位数1.0，类b各个问题答案平均值2.25
+左右，中位数2.5，即类b问卷答案优于类a。
+问卷一共对3名教师和13门课程进行了调查，下面根据属于每位老师或者课程的答案分布情况进行分析：
+
+3个教师分布分别是[349,426]，[645,799]，[2154,1447]。
+可见，教师1和2的满意率占比较高，教师3的满意率较低。
+
+13门课程中，满意度较低的课程为class3，class4，class13，而这几门课基本都是教师3授课（class13为教师2和教师3一同授课）。其中class13各个问题评分都偏低。
+
+对教师3的问卷答案情况进行分析，发现教师3课程的平均出勤率较低，为1.56，且关于课程目标和规划类的问题的得分总体偏低，例如问题Q1和Q2，因此对老师和学校提出几点建议：
+\begin{enumerate}
+       \item 建议该教师在开课时和学生明确课程基本信息，如课程内容，目标以及评价体系；
+       \item 建议该教师通过提高课程趣味性和增加出勤检查等方式来提升课堂出勤率；
+       \item 建议学校更加注重对教师教学质量的考核，依据考核结果对课程的授课教师进行科学指导或调整，从而保证课程质量。
+\end{enumerate}
 
 % The following two commands are all you need in the
 % initial runs of your .tex file to
@@ -566,7 +581,10 @@ DBSCAN算法的聚类结果。从图中可知，以上三种方法得到的聚�
 %
 %APPENDICES are optional
 %\balancecolumns
-\newpage
+\clearpage
+
+% \newpage
+
 \appendix
 %Appendix A
 \section{\textsf{\zihao{-4}聚类算法可视化结果}}
